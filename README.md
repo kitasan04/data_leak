@@ -17,7 +17,7 @@ data<br>
 2. ディレクトリパスを書き換える<br>
 　data_size.pyとmove.pyのdir_pathを1.で作成したdataのパスに書き換える。<br>
 　なお、trainとtestをdata_leak下に置く場合は、書き換える必要はない。<br>
-
+<br>
 3. main.pyを実行し、0を入力し、0を入力する。
 
 ## 使い方
