@@ -75,6 +75,3 @@ def SelectMode(seed=42):
     else:
         print("Please input 0~3\n\n")
         SelectMode(seed)
-
-
-SelectMode()

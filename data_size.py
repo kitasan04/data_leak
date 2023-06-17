@@ -40,13 +40,17 @@ def show_now():
         print("{:<28s}{:<8d}{:<8d}".format(
             class_name, train_amount, test_amount))
 
+def show_leak_data():
+    with open('move_paths.txt') as f:
+        print(f.read())
 
 def SelectMode():
     print("Select Mode")
     print("(0) Init data size")
     print("(1) Show original data size")
     print("(2) Show current data size")
-    print("(3) Quite")
+    print("(3) Show leak data")
+    print("(4) Quite")
     mode = input("mode=")
     if mode == '0':
         init()
@@ -59,11 +63,11 @@ def SelectMode():
         show_now()
         return
     elif mode == '3':
+        show_leak_data()
+        return
+    elif mode == '4':
         print("Quite!\n\n")
         return
     else:
         print("Please input 0~3\n\n")
         SelectMode()
-
-
-SelectMode()
