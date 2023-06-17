@@ -54,7 +54,7 @@ def SelectMode():
     mode = input("mode=")
     if mode == '0':
         init()
-        print('Done!')
+        print('Done!\n')
         return
     elif mode == '1':
         show_origin()
@@ -66,8 +66,8 @@ def SelectMode():
         show_leak_data()
         return
     elif mode == '4':
-        print("Quite!\n\n")
+        print("Quite!\n")
         return
     else:
-        print("Please input 0~3\n\n")
+        print("Please input 0~3\n")
         SelectMode()

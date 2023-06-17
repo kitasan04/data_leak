@@ -56,22 +56,22 @@ def SelectMode(seed=42):
     mode = input("mode=")
     if mode == '0':
         seed = int(input('seed='))
-        print("Done!\n\n")
+        print("Done!\n")
         SelectMode(seed)
     elif mode == '1':
         N = int(input('N='))
         if 77 < N:
             return
         move(N)
-        print("Done!\n\n")
+        print("Done!\n")
         return
     elif mode == '2':
         moveback()
-        print("Done!\n\n")
+        print("Done!\n")
         return
     elif mode == '3':
-        print("Quite!\n\n")
+        print("Quite!\n")
         return
     else:
-        print("Please input 0~3\n\n")
+        print("Please input 0~3\n")
         SelectMode(seed)
