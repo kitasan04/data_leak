@@ -57,9 +57,13 @@ def SelectMode():
     print("(4) Quite")
     mode = input("mode=")
     if mode == '0':
-        init()
-        print('Done!\n')
-        return
+        conf=input("Do you really want to initialize it?(yes,no)")
+        if conf=='yes':
+            init()
+            print('Done!\n')
+            return
+        else:
+            print('Didn\'t do it\n')
     elif mode == '1':
         show_origin()
         return
