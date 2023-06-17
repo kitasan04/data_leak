@@ -18,6 +18,8 @@ def init():
                                              train_amount, test_amount)+"\n"
     with open("data_size.txt", 'w') as f:
         f.write(txts)
+    with open("move_paths.txt", 'w') as f:
+        f.write("")
 
 
 def show_origin():
@@ -40,9 +42,11 @@ def show_now():
         print("{:<28s}{:<8d}{:<8d}".format(
             class_name, train_amount, test_amount))
 
+
 def show_leak_data():
     with open('move_paths.txt') as f:
         print(f.read())
+
 
 def SelectMode():
     print("Select Mode")
