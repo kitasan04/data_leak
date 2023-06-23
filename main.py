@@ -16,10 +16,10 @@ def main():
             move.SelectMode()
         elif opt =='2':
             print("Quite!")
-            break
+            return
         else:
-            print("Please input 0 or 1 \n")
+            print("Please input 0~2 \n")
             main()
-
+            return
 
 main()
