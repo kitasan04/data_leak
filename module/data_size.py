@@ -1,10 +1,8 @@
 import glob
 import os
-# put your data directory path
-dir_path = ''
 
 
-def init():
+def init(dir_path):
     class_paths = glob.glob(dir_path+'test/**')
     txts = "{:<28s}{:>8s}{:>8s}{:>8s}{:>8s}".format(
         "label", "train", "val", "test", "leak")+"\n"
@@ -28,19 +26,21 @@ def init():
         leak_amount = len(glob.glob(dir_path+'leak/'+class_name+'/*'))
         txts += "{:<28s}{:>8d}{:>8d}{:>8d}{:>8d}".format(class_name,
                                                          train_amount, val_amount, test_amount, leak_amount)+"\n"
-    with open("data_size.txt", 'w') as f:
+    if not(os.path.exists('texts')):
+        os.mkdir('texts')
+    with open("texts/data_size.txt", 'w') as f:
         f.write(txts)
-    with open("move_paths.txt", 'w') as f:
+    with open("texts/move_paths.txt", 'w') as f:
         f.write("")
 
 
 def show_origin():
-    with open('data_size.txt') as f:
+    with open('texts/data_size.txt') as f:
         txts = f.read()
         print(txts)
 
 
-def show_now():
+def show_now(dir_path):
     class_paths = glob.glob(dir_path+'test/**')
     print("{:<28s}{:>8s}{:>8s}{:>8s}{:>8s}".format(
         "label", "train", "val", "test", "leak"))
@@ -56,7 +56,7 @@ def show_now():
         leak_amount = len(glob.glob(dir_path+'leak/'+class_name+'/*'))
         print("{:<28s}{:>8d}{:>8d}{:>8d}{:>8d}".format(
             class_name, train_amount, val_amount, test_amount, leak_amount))
-    with open('data_size.txt') as f:
+    with open('texts/data_size.txt') as f:
         original_train_amount = int(f.readlines()[-1].split()[1])
         print()
         print("{:<15s}{:<8d}{:<15s}".format("test->train",
@@ -67,11 +67,11 @@ def show_now():
 
 
 def show_leak_data():
-    with open('move_paths.txt') as f:
+    with open('texts/move_paths.txt') as f:
         print(f.read()[-1].split()[1])
 
 
-def SelectMode():
+def SelectMode(dir_path):
     print("Select Mode")
     print("(0) Init data size")
     print("(1) Show original data size")
@@ -82,7 +82,7 @@ def SelectMode():
     if mode == '0':
         conf = input("Do you really want to initialize it?(yes,no)")
         if conf == 'yes':
-            init()
+            init(dir_path)
             print('Done!\n')
             return
         else:
@@ -91,7 +91,7 @@ def SelectMode():
         show_origin()
         return
     elif mode == '2':
-        show_now()
+        show_now(dir_path)
         return
     elif mode == '3':
         show_leak_data()
@@ -101,4 +101,4 @@ def SelectMode():
         return
     else:
         print("Please input 0~3\n")
-        SelectMode()
+        SelectMode(dir_path)

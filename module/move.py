@@ -4,10 +4,9 @@ import shutil
 import random
 from sklearn.model_selection import train_test_split
 # put your data directory path
-dir_path = ''
 
 
-def move(N=10):
+def move(dir_path,N=10):
     class_dirnames = glob.glob(dir_path+'test/*')
     move_paths = []
     for class_dirname in class_dirnames:
@@ -19,9 +18,9 @@ def move(N=10):
             move_path = choice_path_new.replace(dir_path, '')
             move_paths.append(move_path)
     txts = ''
-    with open(dir_path+'move_paths.txt') as f:
+    with open('texts/move_paths.txt') as f:
         txts += f.read()
-    with open(dir_path+'move_paths.txt', 'w') as f:
+    with open('texts/move_paths.txt', 'w') as f:
         for move_path in move_paths:
             move_path += '\n'
             txts += move_path
@@ -32,8 +31,8 @@ def excute_classname_from_path(path):
     return '/'.join(path.split('/')[:-1])
 
 
-def train_val_split(val_p, seed):
-    file_paths = glob.glob("train/**/**")
+def train_val_split(dir_path,val_p, seed):
+    file_paths = glob.glob(dir_path+"train/**/**")
     class_paths = list(map(excute_classname_from_path, file_paths))
     train_paths, val_paths, train_labels,  val_labels = train_test_split(
         file_paths,
@@ -50,7 +49,7 @@ def train_val_split(val_p, seed):
         shutil.move(val_path_old, val_paht_new)
 
 
-def move_leak(N=10):
+def move_leak(dir_path,N=10):
     class_dirnames = glob.glob(dir_path+'test/*')
     move_paths = []
     for class_dirname in class_dirnames:
@@ -62,18 +61,18 @@ def move_leak(N=10):
             move_path = choice_path_new.replace(dir_path, '')
             move_paths.append(move_path)
     txts = ''
-    with open(dir_path+'leak_paths.txt') as f:
+    with open('texts/leak_paths.txt') as f:
         txts += f.read()
-    with open(dir_path+'leak_paths.txt', 'w') as f:
+    with open('texts/leak_paths.txt', 'w') as f:
         for move_path in move_paths:
             move_path += '\n'
             txts += move_path
         f.write(txts)
 
 
-def moveback():
+def moveback(dir_path):
     pass_paths = []
-    with open(dir_path+'move_paths.txt') as f:
+    with open('texts/move_paths.txt') as f:
         names = f.readlines()
         for name in names:
             path_old = name.replace("\n", "")
@@ -82,7 +81,7 @@ def moveback():
                 shutil.move(dir_path+path_old, dir_path+path_new)
             else:
                 pass_paths.append(path_old)
-    with open(dir_path+'move_paths.txt', 'w') as f:
+    with open('texts/move_paths.txt', 'w') as f:
         txts = ''
         for pass_path in pass_paths:
             pass_path += '\n'
@@ -90,9 +89,9 @@ def moveback():
         f.write(txts)
 
 
-def moveback_leak():
+def moveback_leak(dir_path):
     pass_paths = []
-    with open(dir_path+'leak_paths.txt') as f:
+    with open('texts/leak_paths.txt') as f:
         names = f.readlines()
         for name in names:
             path_old = name.replace("\n", "")
@@ -101,7 +100,7 @@ def moveback_leak():
                 shutil.move(dir_path+path_old, dir_path+path_new)
             else:
                 pass_paths.append(path_old)
-    with open(dir_path+'leak_paths.txt', 'w') as f:
+    with open('texts/leak_paths.txt', 'w') as f:
         txts = ''
         for pass_path in pass_paths:
             pass_path += '\n'
@@ -109,7 +108,7 @@ def moveback_leak():
         f.write(txts)
 
 
-def moveback_val():
+def moveback_val(dir_path):
     paths = glob.glob(dir_path+'val/**/**')
     for path in paths:
         path_old = path
@@ -117,7 +116,7 @@ def moveback_val():
         shutil.move(path_old, path_new)
 
 
-def SelectMode(seed=42):
+def SelectMode(dir_path,seed=42):
     random.seed(seed)
     print("Select Mode")
     print("(0) Change the seed value from "+str(seed))
@@ -131,7 +130,7 @@ def SelectMode(seed=42):
     if mode == '0':
         seed = int(input('seed='))
         print("Done!\n")
-        SelectMode(seed)
+        SelectMode(dir_path,seed)
 
     elif mode == '1':
         print("Move N pieces of each class from test")
@@ -142,28 +141,28 @@ def SelectMode(seed=42):
         destination = input("destination=")
         if destination == '2':
             print("Quite!\n")
-            SelectMode(seed)
+            SelectMode(dir_path,seed)
             return
         try:
             N = int(input('N='))
         except TypeError:
             print('Please input integer!\n')
-            SelectMode(seed)
+            SelectMode(dir_path,seed)
         if 77 < N:
             print(
                 'Please input the number less than the smallest class in the test data!\n')
-            SelectMode(seed)
+            SelectMode(dir_path,seed)
         if destination == '0':
-            move(N)
+            move(dir_path,N)
             print("Done!\n")
             return
         elif destination == '1':
-            move_leak(N)
+            move_leak(dir_path,N)
             print("Done!\n")
             return
         else:
             print("Please input 0~2\n")
-            SelectMode(seed)
+            SelectMode(dir_path,seed)
 
     elif mode == '2':
         print("Restore the data set to its original state")
@@ -174,36 +173,36 @@ def SelectMode(seed=42):
         print("(3) Quite")
         source = input("source=")
         if source == '0':
-            moveback()
+            moveback(dir_path)
             print("Done!\n")
             return
         elif source == '1':
-            moveback_leak()
+            moveback_leak(dir_path)
             print("Done!\n")
             return
         elif source == '2':
-            moveback_val()
+            moveback_val(dir_path)
             print("Done!\n")
             return
         elif source == '3':
             print("Quite!\n")
-            SelectMode(seed)
+            SelectMode(dir_path,seed)
             return
         else:
             print("Please input 0~3\n")
-            SelectMode(seed)
+            SelectMode(dir_path,seed)
 
     elif mode == '3':
         try:
             val_p = float(input('percentage of validation data='))
         except TypeError:
             print('Please input decimals!\n')
-            SelectMode(seed)
+            SelectMode(dir_path,seed)
         if not(0 < val_p < 1):
             print(
                 'Please input the percentage of validation data as a value between 0 and 1!\n')
-            SelectMode(seed)
-        train_val_split(val_p, seed)
+            SelectMode(dir_path,seed)
+        train_val_split(dir_path,val_p, seed)
         print("Done!\n")
         return
     elif mode == '4':
@@ -211,4 +210,4 @@ def SelectMode(seed=42):
         return
     else:
         print("Please input 0~4\n")
-        SelectMode(seed)
+        SelectMode(dir_path,seed)
